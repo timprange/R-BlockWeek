@@ -130,16 +130,19 @@ Write a function that takes a directory of data files and a threshold for comple
 
 ```{r}
 corr <- function(directory, threshold = 0) {
-    # 'directory' is character vector of length 1 
-    # indicating the location of the csv file.
     
-    # 'threshold' is numeric vector of length 1 indicating
-    # the number of completely observed observations (on all
-    # variables) required to compute the correlation between
-    # nitrate and sulfate; the default is 0
-    
-    # Return a numeric vector of correlations
-    # NOTE: do not round the result!
+    corrs <- c()
+    fileNames <- list.files(directory, full.names =  TRUE)
+    for (fileName in fileNames) {
+        csvData <- read.csv(fileName)
+        csvData <- na.omit(csvData)
+        
+        if(tally(csvData)>threshold){
+        
+            corrs <- c(corrs, cor(csvData$sulfate, csvData$nitrate))
+        }
+    }    
+    corrs
 }
 ```
 
@@ -148,9 +151,9 @@ For this function you will need to use the 'cor' function in R which calculates 
 Output examples:
 
 ```{r}
-#cr <- corr("specdata", 150)
+cr <- corr("specdata", 150)
 
-#head(cr); summary(cr)
+head(cr); summary(cr)
 
 ## [1] -0.01895754 -0.14051254 -0.04389737 -0.06815956 -0.12350667 -0.07588814
 ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
@@ -158,9 +161,9 @@ Output examples:
 ```
 
 ```{r}
-#cr <- corr("specdata", 400)
+cr <- corr("specdata", 400)
 
-#head(cr); summary(cr)
+head(cr); summary(cr)
 
 ## [1] -0.01895754 -0.04389737 -0.06815956 -0.07588814  0.76312884 -0.15782860
 ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
@@ -168,9 +171,9 @@ Output examples:
 ```
 
 ```{r}
-#cr <- corr("specdata", 5000)
+cr <- corr("specdata", 5000)
 
-#head(cr); summary(cr) ; length(cr)
+head(cr); summary(cr) ; length(cr)
 
 ## NULL
 ## Length  Class   Mode 
