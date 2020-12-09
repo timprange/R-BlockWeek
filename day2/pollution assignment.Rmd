@@ -80,32 +80,24 @@ Write a function that reads a directory full of files and reports the number of 
 
 ```{r}
 complete <- function(directory, id = 1:332) {
-    # 'directory' is character vector of length 1 
-    # indicating the location of the csv file.
     
-    # 'id' is an integer vector indicating the monitor ID
-    # numbers to be used
+    csvData <- readAllFiles(directory, id)
     
-    # Returns a data frame of the form:
-    # id    nobs
-    # 1     117
-    # 2     1041
-    # ...
-    # where 'id' is the monitor number and 'nobs' is the
-    # number of complete cases
+    # sum up all data for each station
+    na.omit(csvData) %>% group_by(ID) %>% tally(name="nobs")
 }
 ```
 
 Output examples:
 ```{r}
-#complete("specdata", 1)
+complete("specdata", 1)
 
 ##   id nobs
 ## 1  1  117
 ```
 
 ```{r}
-#complete("specdata", c(2, 4, 8, 10, 12))
+complete("specdata", c(2, 4, 8, 10, 12))
 
 ##   id nobs
 ## 1  2 1041
@@ -116,7 +108,7 @@ Output examples:
 ```
 
 ```{r}
-#complete("specdata", 50:60)
+complete("specdata", 50:60)
 
 ##   id nobs
 ## 1  50  459
