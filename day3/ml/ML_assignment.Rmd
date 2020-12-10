@@ -78,7 +78,7 @@ library(doParallel)
 cluster <- makeCluster(detectCores() - 2) # convention to leave 2 core for OS
 registerDoParallel(cluster)
 #train first model
-modelFit_1 <- train(classe ~.,data=training, method="glm", trControl = trainControl(method = "cv", number = 5, p = .9, allowParallel = TRUE))
+modelFit_1 <- train(classe ~.,data=training, method="gbm", trControl = trainControl(method = "cv", number = 5, p = .9, allowParallel = TRUE))
 prediction_1 <- predict(modelFit_1, testing)
 accuracy_1 <- confusionMatrix(table(prediction_1, testing$classe))$overall[["Accuracy"]]
 accuracy_1
