@@ -29,12 +29,15 @@ The data for this project come from this source: http://groupware.les.inf.puc-ri
 
 ```{r}
 # Some Data have #DIV/0 errors. Those are interpreted as NA
-training <- read.csv("pml-training.csv", na.strings=c("#DIV/0!"))
-testing <- read.csv("pml-testing.csv", na.strings=c("#DIV/0!"))
+trainingData <- read.csv("pml-training.csv", na.strings=c("#DIV/0!"))
+testingData <- read.csv("pml-testing.csv", na.strings=c("#DIV/0!"))
 
 # Load needed Library
 library(caret)
-library(randomForest)
+library(kernlab)
+#Setup cluster
+library(parallel)
+library(doParallel)
 ```
 
 ## What you should do
@@ -45,11 +48,37 @@ Also you should explain how do you deal with NA's values and investigate correla
 
 You repository for this assignment should consist of R markdown file, compiled html file and prediction.csv file with data from pml-testing.csv and 'classe' column with predictions for 20 observation.
 
-## Work
+## Data Split
 ```{r}
 # Seperate the trainingset to do validation in trainingdata
-trainingset <- createDataPartition(train$classe, p=0.8, list = FALSE)
-trainingData <- training[trainingset,]
-validationData <- training[-trainingset,]
+inTrain <- createDataPartition(trainingData$classe, p=0.75, list = FALSE)
+training <- trainingData[inTrain ,]
+testing  <- trainingData[-inTrain ,]
+dim(training); dim(testing)
 ```
 
+## Clean Data
+```{r}
+# remove NA values
+training <- training[, colSums(is.na(training) | training == "") == 0]
+# remove username column as it has no influence on the outcome
+drop_columns <- c("user_name")
+training <- training[ , !(names(training) %in% drop_columns)]
+```
+
+
+## Fit a model
+
+```{r}
+#Setup cluster
+library(parallel)
+library(doParallel)
+cluster <- makeCluster(detectCores() - 2) # convention to leave 2 core for OS
+registerDoParallel(cluster)
+#train first model
+modelFit_1 <- train(classe ~.,data=training, method="gbm", trControl = trainControl(method = "cv", number = 5, p = .9, allowParallel = TRUE))
+modelFit_1
+#stop cluster
+stopCluster(cluster)
+registerDoSEQ()
+```
