@@ -1,0 +1,249 @@
+
+---
+title: "R Final Exam"
+date: "10 12 2020"
+geometry: margin=2cm
+output: pdf_document
+---
+
+# Student ______________________________
+
+## R programming
+
+For this part we will use built-in datasets `airquality` and dplyr dataset `starwars`. You have to install `dplyr` package and run `library(dplyr)` to access to the dataset.
+
+### Question 1
+
+How many rows in `airquality`. Write a number
+
+    _______________
+    
+### Question 2
+
+How many NA values in `airquality` column `Ozone`. Write a number
+
+    _______________
+    
+### Question 3
+
+Which sex do characters have (`starwars$sex`)? Choose all possible answers.
+
+1. male
+2. female
+3. android
+4. hermaphroditic
+5. undefined
+
+### Question 4
+What is the mean mass for Humans (`starwars`)? Write a number.
+(Hint: check `?mean` to calculate mean with NA values)
+
+    _______________
+    
+### Question 5
+
+What is the Ozone value for 47's row in `airquality`. Write a number
+
+    _______________
+    
+### Question 6
+
+How many characters in `starwars` have `blue` color in their skins? Write a number
+    
+    ________________
+    
+### Question 7
+
+How many complete rows (without NA in any column) are in `starwars`. Write a number
+
+    ________________
+    
+### Question 8
+
+Write the name of the haviest character in `starwars`.
+
+    ________________
+    
+### Question 9
+
+What is the `min` `wind` value for `Month == 7` in `airquality? Write a number
+
+    ________________
+    
+### Question 10
+
+Which `species` is mostly presented in `starwars`? Write a name
+
+    ________________
+    
+## Data visualization
+
+### Question 11
+
+Build a histogramm for `airquality$Temp`. Use a Base plot with default parameters. Which bar is the biggest? Write a number.
+
+    ________________
+    
+### Question 12
+
+Build a boxplot for `airquality$Ozone`. Use a Base plot with default parameters. How many outliers on the plot? Write a number.
+
+    ________________
+
+### Question 13
+
+Build a scatterplot for `Ozone` and `Temp` `airquality` dataset. Use a Base plot with default parameters. In which range of `Ozone` is the lowest number of values? Choose one answer.
+    
+1. 0-50
+2. 50-100
+3. 100-150
+
+### Question 14
+
+Build a density plot for `height` column `starwars` with ggplot2. How many peakes are on the plot? Choose one answer.
+
+1. 1
+2. 3
+3. 6
+4. 8
+
+### Question 15
+
+Build a scatter plot for `height` and `mass` columns `starwars` with ggplot2 with default parameters. In which range of height is the biggest number of values? Choose one answer.
+
+1. 0-100
+2. 100-150
+3. 150-200
+4. 200-250
+
+## Machine learning
+
+### Question 16
+
+Load the cell segmentation data from the `AppliedPredictiveModeling` package using the commands:
+
+```
+library(AppliedPredictiveModeling)
+data(segmentationOriginal)
+library(caret)
+```
+
+1. Subset the data to a training set and testing set based on the Case variable in the data set.
+
+2. Set the seed to `125` and fit a **CART** model with the **rpart** method using all predictor variables and default caret settings.
+
+3. In the final model what would be the final model prediction for cases with the following variable values (choose one answer):
+
+*a. TotalIntench2 = 23,000; FiberWidthCh1 = 10; PerimStatusCh1=2*
+
+*b. TotalIntench2 = 50,000; FiberWidthCh1 = 10;VarIntenCh4 = 100*
+
+*c. TotalIntench2 = 57,000; FiberWidthCh1 = 8;VarIntenCh4 = 100*
+
+*d. FiberWidthCh1 = 8;VarIntenCh4 = 100; PerimStatusCh1=2*
+   
+1. a. Not possible to predict, b. WS, c. PS, d. PS
+2. a. PS, b. WS, c. PS, d. WS
+3. a. PS, b. WS, c. PS, d. Not possible to predict
+4. a. PS, b. Not possible to predict, c. PS, d. WS     
+
+### Question 17
+
+Load the olive oil data using the commands:
+
+```
+library(pgmm)
+data(olive)
+olive = olive[,-1]
+```
+These data contain information on 572 different Italian olive oils from multiple regions in Italy. Fit a classification tree where Area is the outcome variable. Then predict the value of area for the following data frame using the tree command with all defaults
+
+```
+newdata = as.data.frame(t(colMeans(olive)))
+```
+
+What is the resulting prediction? Is the resulting prediction correct? Why or why not? Choose one answer.
+
+1. 2.783. The result is correct.
+2. 4.59965. The result is correct.
+3. 0.005291005 0 0.994709 0 0 0 0 0 0. The result is incorrect because Area is a numeric variable and we should get the average within each leaf.
+4. 2.783. The result is incorrect because Area should be a qualitative variable - but tree is reporting the average value of Area as a numeric variable in the leaf predicted for newdata
+    
+### Question 18
+
+Load the olive oil data using the commands:
+
+```
+library(pgmm)
+data(olive)
+```
+
+Target variable is `Area`. Transform it to factor. Set seed to `5566`. Fit a random forest predictor relating the variable `Area` to the remaining variables. Read about variable importance in random forests here: http://www.stat.berkeley.edu/~breiman/RandomForests/cc_home.htm#ooberr 
+The caret package uses by default the Gini importance.
+
+Calculate the variable importance using the varImp function in the caret package. What is the most important variable? Choose one answer.
+
+1. Oleic
+2. Stearic
+3. Palmitic
+4. Eicosenoic
+    
+
+### Question 19
+
+Load the Alzheimer's disease data using the commands:
+
+```
+set.seed(3433)
+data(AlzheimerDisease)
+adData = data.frame(diagnosis,predictors)
+inTrain = createDataPartition(adData$diagnosis, p = 3/4, list = FALSE)
+training = adData[ inTrain,]
+testing = adData[-inTrain,]
+```
+
+Find all the predictor variables in the training set that begin with IL. Perform principal components on these variables with the preProcess() function from the caret package. Calculate the number of principal components needed to capture 90% of the variance. How many are there? Choose one answer
+
+1. 7
+2. 11
+3. 9
+4. 8
+
+### Question 20
+
+Load the concrete data with the commands:
+
+```
+set.seed(3523)
+library(AppliedPredictiveModeling)
+data(concrete)
+inTrain = createDataPartition(concrete$CompressiveStrength, p = 3/4, list = FALSE)
+training = concrete[ inTrain,]
+testing = concrete[-inTrain, ]
+```
+
+Fit a support vector machine using the `e1071` package (function `svm`) to predict Compressive Strength using the default settings. Predict on the testing set. What is the RMSE? Choose one nearest answer.
+
+1. 45.09
+2. 7.96
+3. 11543.39
+4. 3.58
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
