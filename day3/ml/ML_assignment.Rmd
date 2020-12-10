@@ -29,8 +29,8 @@ The data for this project come from this source: http://groupware.les.inf.puc-ri
 
 ```{r}
 # Some Data have #DIV/0 errors. Those are interpreted as NA
-trainingData <- read.csv("pml-training.csv", na.strings=c("#DIV/0!"))
-testingData <- read.csv("pml-testing.csv", na.strings=c("#DIV/0!"))
+trainingData <- read.csv("pml-training.csv", row.names = 1)
+testingData <- read.csv("pml-testing.csv", row.names = 1)
 
 # Load needed Library
 library(caret)
@@ -66,11 +66,7 @@ testing  <- trainingData[-inTrain ,]
 dim(training); dim(testing)
 ```
 
-
-
-
-## Fit a model
-
+## Fit model 1
 ```{r}
 #Setup cluster
 library(parallel)
@@ -82,21 +78,44 @@ modelFit_1 <- train(classe ~.,data=training, method="gbm", trControl = trainCont
 prediction_1 <- predict(modelFit_1, testing)
 accuracy_1 <- confusionMatrix(table(prediction_1, testing$classe))$overall[["Accuracy"]]
 accuracy_1
+#stop cluster
+stopCluster(cluster)
+registerDoSEQ()
+```
 
+## Fit model 2
+```{r}
+#Setup cluster
+library(randomForest)
+library(parallel)
+library(doParallel)
+cluster <- makeCluster(detectCores() - 2) # convention to leave 2 core for OS
+registerDoParallel(cluster)
 #train second model
-modelFit_2 <- train(classe ~.,data=training, method="ft", trControl = trainControl(method = "cv", number = 5, p = .9, allowParallel = TRUE))
+modelFit_2 <- train(classe ~.,data=training, method="rf", trControl = trainControl(method = "cv", number = 5, p = .9, allowParallel = TRUE))
 prediction_2 <- predict(modelFit_2, testing)
 accuracy_2 <- confusionMatrix(table(prediction_2, testing$classe))$overall[["Accuracy"]]
 accuracy_2
 #stop cluster
 stopCluster(cluster)
 registerDoSEQ()
+```
 
+
+## Test Data
+```{r}
 prediction_1_test <- predict(modelFit_1, testingData)
 prediction_2_test <- predict(modelFit_2, testingData)
+```
 
+## Write results
+```{r}
 testingData["pred_1_test"] <- prediction_1_test
 testingData["pred_2_test"] <- prediction_2_test
 
 write.csv(testingData, "results.csv")
 ```
+
+## Conclusion
+
+Both gbm and rf score high values (>99%) even so random forest (99,9) is a bit better I would suggest gbm (99,6) due to it significant lower run time.
