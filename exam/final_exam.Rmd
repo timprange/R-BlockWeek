@@ -12,15 +12,25 @@ output: pdf_document
 
 For this part we will use built-in datasets `airquality` and dplyr dataset `starwars`. You have to install `dplyr` package and run `library(dplyr)` to access to the dataset.
 
+```{r}
+library(dplyr)
+```
+
 ### Question 1
 
 How many rows in `airquality`. Write a number
+```{r}
+
+```
 
     _______________
     
 ### Question 2
 
 How many NA values in `airquality` column `Ozone`. Write a number
+```{r}
+
+```
 
     _______________
     
@@ -33,46 +43,71 @@ Which sex do characters have (`starwars$sex`)? Choose all possible answers.
 3. android
 4. hermaphroditic
 5. undefined
+```{r}
+
+```
+
 
 ### Question 4
 What is the mean mass for Humans (`starwars`)? Write a number.
 (Hint: check `?mean` to calculate mean with NA values)
+```{r}
+
+```
 
     _______________
     
 ### Question 5
 
 What is the Ozone value for 47's row in `airquality`. Write a number
+```{r}
+
+```
 
     _______________
     
 ### Question 6
 
 How many characters in `starwars` have `blue` color in their skins? Write a number
+```{r}
+
+```
     
     ________________
     
 ### Question 7
 
 How many complete rows (without NA in any column) are in `starwars`. Write a number
+```{r}
+
+```
 
     ________________
     
 ### Question 8
 
 Write the name of the haviest character in `starwars`.
+```{r}
+
+```
 
     ________________
     
 ### Question 9
 
 What is the `min` `wind` value for `Month == 7` in `airquality? Write a number
+```{r}
+
+```
 
     ________________
     
 ### Question 10
 
 Which `species` is mostly presented in `starwars`? Write a name
+```{r}
+
+```
 
     ________________
     
@@ -81,12 +116,18 @@ Which `species` is mostly presented in `starwars`? Write a name
 ### Question 11
 
 Build a histogramm for `airquality$Temp`. Use a Base plot with default parameters. Which bar is the biggest? Write a number.
+```{r}
+
+```
 
     ________________
     
 ### Question 12
 
 Build a boxplot for `airquality$Ozone`. Use a Base plot with default parameters. How many outliers on the plot? Write a number.
+```{r}
+
+```
 
     ________________
 
@@ -97,6 +138,10 @@ Build a scatterplot for `Ozone` and `Temp` `airquality` dataset. Use a Base plot
 1. 0-50
 2. 50-100
 3. 100-150
+```{r}
+
+```
+
 
 ### Question 14
 
@@ -106,6 +151,10 @@ Build a density plot for `height` column `starwars` with ggplot2. How many peake
 2. 3
 3. 6
 4. 8
+```{r}
+
+```
+
 
 ### Question 15
 
@@ -115,6 +164,10 @@ Build a scatter plot for `height` and `mass` columns `starwars` with ggplot2 wit
 2. 100-150
 3. 150-200
 4. 200-250
+```{r}
+
+```
+
 
 ## Machine learning
 
